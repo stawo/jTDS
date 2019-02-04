@@ -88,12 +88,16 @@ public class JtdsConnection implements java.sql.Connection {
                                                          "SET QUOTED_IDENTIFIER ON\r\n"+
                                                          "SET TEXTSIZE 2147483647";
     /**
+     * SQL Server test connection string.
+     */
+    private static final String SQL_SERVER_TEST_SQL = "SELECT @@MAX_PRECISION";
+    /**
      * SQL Server custom transaction isolation level.
      */
     public static final int TRANSACTION_SNAPSHOT = 4096;
 
     /*
-     * Conection attributes
+     * Connection attributes
      */
 
     /** The orginal connection URL. */
@@ -2851,8 +2855,31 @@ public class JtdsConnection implements java.sql.Connection {
      * @see java.sql.Connection#isValid(int)
      */
     public boolean isValid(int timeout) throws SQLException {
-	    // TODO Auto-generated method stub
-        throw new AbstractMethodError();
+	    
+        if (serverType == Driver.SQLSERVER) {
+			
+			Statement stmt = this.createStatement();
+			
+			try{
+				// We execute the test SQL query to see if the connection is still working
+				ResultSet rs = stmt.executeQuery(SQL_SERVER_TEST_SQL);
+				rs.close();
+			    
+				return true;
+				
+			} catch (SQLException e) {
+			   
+				// Something went wrong, so the connection is not working properly,
+				// thus it's invalid
+				return false;
+			   
+			} finally {
+				stmt.close();
+			}
+		}
+		
+		// If we reach this point we throw an exception
+		throw new AbstractMethodError();
     }
 
     /* (non-Javadoc)
