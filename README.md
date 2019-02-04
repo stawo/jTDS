@@ -1,3 +1,10 @@
+Disclaimer
+============
+
+This is an unofficial fork of the repo https://github.com/milesibastos/jTDS, which, in turn, appears to be a semi-official fork of the original project, jTDS (http://jtds.sourceforge.net, https://sourceforge.net/projects/jtds/).
+
+This fork introduces some modifications in order to be able to use jTDS with Apache NiFi (https://nifi.apache.org).
+
 Introduction
 ============
 
