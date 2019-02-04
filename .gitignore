@@ -5,6 +5,8 @@
 
 # Package Files #
 *.jar
+#Except for jars in bin
+!bin/*.jar
 *.war
 *.ear
 
